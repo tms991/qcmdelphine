@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>QCM R101 – Réseaux et équipements Cisco</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&family=IBM+Plex+Sans:wght@400;600&display=swap">
+<style>
+:root{--bg:#edf1f5;--card:#fff;--ink:#16202e;--mute:#5a6675;--line:#c9d3de;--acc:#0b6e80;--ok:#1f7a3d;--okbg:#e2f3e7;--ko:#b3261e;--kobg:#fbe5e3;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1720;--card:#18222e;--ink:#e6edf5;--mute:#93a1b2;--line:#2c3a4a;--acc:#4cc0d4;--ok:#5ccb84;--okbg:#14301f;--ko:#ff8a80;--kobg:#3a1a18}}
+:root[data-theme="dark"]{--bg:#0f1720;--card:#18222e;--ink:#e6edf5;--mute:#93a1b2;--line:#2c3a4a;--acc:#4cc0d4;--ok:#5ccb84;--okbg:#14301f;--ko:#ff8a80;--kobg:#3a1a18}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 "IBM Plex Sans",system-ui,sans-serif}
+main{max-width:640px;margin:0 auto;padding:20px 16px 48px}
+.top{display:flex;justify-content:space-between;color:var(--mute);font-size:14px}
+.bar{height:6px;background:var(--line);border-radius:3px;margin:8px 0 22px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--acc);transition:width .3s}
+h1{font-size:21px;line-height:1.35;margin:0 0 18px}
+h2{font-size:26px;margin:0 0 6px}
+button{font:inherit;color:inherit;cursor:pointer}
+.o{display:block;width:100%;text-align:left;background:var(--card);border:1.5px solid var(--line);border-radius:10px;padding:12px 14px;margin:0 0 10px}
+.o:hover:not(:disabled){border-color:var(--acc)}
+.o:disabled{cursor:default;color:inherit}
+.o.ok{border-color:var(--ok);background:var(--okbg)}
+.o.ko{border-color:var(--ko);background:var(--kobg)}
+.o.dim{opacity:.55}
+.main{background:var(--acc);color:#fff;border:0;border-radius:10px;padding:12px 20px;font-weight:600}
+.alt{background:transparent;color:var(--acc);border:1.5px solid var(--acc);border-radius:10px;padding:11px 18px;font-weight:600;margin-left:8px}
+:root[data-theme="dark"] .main,:root:not([data-theme="light"]) .main{color:#08222a}
+button:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+code{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.9em;background:rgba(127,140,155,.18);padding:1px 5px;border-radius:4px}
+.v{padding:12px 14px;border-radius:10px;margin:14px 0}
+.v.ok{background:var(--okbg);color:var(--ok)}
+.v.ko{background:var(--kobg);color:var(--ko)}
+.v span{color:var(--ink)}
+.rev{margin:18px 0;padding:0;list-style:none}
+.rev li{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 14px;margin-bottom:8px;font-size:15px}
+.rev b{color:var(--ok)}
+.acts{margin-top:20px}
+@media (max-width:420px){.alt{margin:10px 0 0}}
+@media (prefers-reduced-motion:reduce){.bar i{transition:none}}
+</style></head>
+<body><main id="app"></main>
+<script>
+// Format : [question, [bonne réponse, faux, faux, faux], explication]
+const Q=[
+["Dans un échange client-serveur, qui envoie les requêtes ?",["Le client","Le serveur","Le routeur","Le commutateur"],"Le client demande, le serveur attend et répond."],
+["Quel sigle désigne un réseau local ?",["LAN","WAN","MAN","PAN"],"LAN = réseau local (zone limitée, débit important)."],
+["Quel type de réseau couvre la plus grande zone ?",["WAN","LAN","PAN","MAN"],"WAN = réseau étendu, jusqu'à toute la planète."],
+["Quelle est la différence principale entre un LAN et un WAN ?",["Le LAN couvre une zone limitée, le WAN une très vaste zone","Le LAN est plus grand que le WAN","Le WAN est toujours plus rapide","Il n'y a aucune différence"],"LAN = local (bureau, salle, bâtiment). WAN = étendu (villes, pays, planète)."],
+["Lequel de ces points décrit un LAN ?",["Zone limitée, débit important, connexion continue","Relie des sites dispersés sur la planète","Débit faible, connexion intermittente","Réseau de quelques mètres autour d'une personne"],"Le dernier choix décrit un PAN."],
+["Lequel de ces points décrit un WAN ?",["Vaste zone, débit plutôt faible, connexion intermittente","Zone limitée, débit important","Relie des machines voisines","Connexion continue aux services locaux"],"Ce sont des caractéristiques du LAN, à l'inverse."],
+["Quel réseau couvre à peu près une ville (environ 10 km) ?",["MAN","PAN","LAN","WAN"],"PAN < LAN < MAN < WAN."],
+["La bande passante se mesure en…",["bits par seconde","mètres","secondes","octets par câble"],"C'est la quantité de données qui peut passer en un temps donné."],
+["Le débit réel est…",["inférieur à la bande passante","supérieur à la bande passante","toujours nul","toujours infini"],"Le débit réel dépend par exemple du nombre d'utilisateurs."],
+["Avec quelle image le cours compare-t-il la bande passante ?",["Le nombre de voies d'une route","La longueur d'un câble","La couleur d'un câble","Le prix d'un abonnement"],"Plus il y a de voies, plus il passe de voitures (de données) en même temps."],
+["Quelle est la différence entre bande passante et débit réel ?",["La bande passante est le maximum possible, le débit réel est ce qu'on mesure vraiment","C'est exactement la même chose","Le débit réel est toujours plus grand","La bande passante dépend des utilisateurs, pas le débit réel"],"Le débit réel est mesuré à un instant donné."],
+["Une autoroute à 10 voies est bloquée par un embouteillage. Que dire du débit ?",["Bande passante grande, mais débit réel très faible","Le débit est maximal","La bande passante est nulle","Le débit est toujours égal à la bande passante"],"Comme sur un réseau saturé : grande bande passante ne veut pas dire bon débit."],
+["Qu'est-ce qui peut faire baisser le débit réel ?",["Beaucoup d'utilisateurs sur le réseau en même temps","Un nom de réseau plus court","La couleur des câbles","Un plus grand nombre de prises murales"],"Autres facteurs : équipements, type de données, topologie, serveurs."],
+["Quelle technologie a la plus grande bande passante ?",["Giga Ethernet (jusqu'à 10 000 Mb/s)","Fast Ethernet (100 Mb/s)","Ethernet (10 Mb/s)","Modem (0,056 Mb/s)"],""],
+["Une adresse MAC est associée à…",["la carte réseau","le système d'exploitation","le routeur uniquement","le nom du site web"],"MAC = adresse physique. L'adresse IP, elle, est logique."],
+["Combien de bits fait une adresse MAC ?",["48","32","16","128"],"48 bits = 12 chiffres hexadécimaux."],
+["Combien de bits fait une adresse IPv4 ?",["32","48","64","12"],"32 bits = 4 octets, écrits en décimal pointé (ex. 192.168.1.10)."],
+["Une adresse IP contient…",["le numéro de réseau et le numéro de la machine","le nom du constructeur","le mot de passe","la vitesse du réseau"],""],
+["192.168.1.1 est une adresse de classe…",["C","A","B","D"],"Classe C : premier octet de 192 à 223, masque /24."],
+["10.0.0.1 est une adresse de classe…",["A","B","C","D"],"Classe A : premier octet de 1 à 126, masque /8."],
+["Quel masque correspond à /24 ?",["255.255.255.0","255.255.0.0","255.0.0.0","255.255.255.255"],"/24 = 24 bits à 1 dans le masque."],
+["À quoi sert l'adresse 127.0.0.1 ?",["À tester le réseau sur sa propre machine","À joindre la passerelle","À joindre Internet","À joindre le DHCP"],"C'est la boucle locale."],
+["Quelle commande affiche son adresse IP sous Linux ?",["`ip addr`","`ipconfig`","`nslookup`","`reload`"],"`ipconfig` est la commande de Windows."],
+["À quoi sert la passerelle par défaut ?",["À sortir du réseau local","À donner une adresse IP","À traduire les noms de sites","À sauvegarder la config"],"C'est l'adresse du routeur auquel la machine est reliée."],
+["Que fait un serveur DHCP ?",["Il donne automatiquement une adresse IP","Il traduit les noms en adresses IP","Il choisit le chemin des paquets","Il chiffre les mots de passe"],""],
+["Que fait le DNS ?",["Il traduit un nom (ex. site web) en adresse IP","Il donne une adresse IP aux machines","Il relie deux réseaux","Il sauvegarde la config"],""],
+["Quel équipement relie des réseaux différents ?",["Le routeur","Le commutateur","Le câble","Le PC"],"Le commutateur relie les machines d'un même réseau."],
+["Où est stocké l'IOS avant d'être chargé en RAM ?",["Dans la Flash","Dans la NVRAM","Dans la ROM","Sur un disque dur"],""],
+["Où est stocké le fichier startup-config ?",["Dans la NVRAM","En RAM","Dans la Flash","Dans la ROM"],"Il est conservé même quand l'équipement est éteint."],
+["Où se trouve la configuration en cours (running-config) ?",["En RAM","En NVRAM","En Flash","En ROM"],"Elle est perdue à l'extinction si on ne la sauvegarde pas."],
+["Quel prompt indique le mode administrateur ?",["`Router#`","`Router>`","`Router(config)#`","`Router(config-if)#`"],"`Router>` = simple utilisateur."],
+["Quelle commande permet de devenir administrateur ?",["`enable`","`login`","`reload`","`hostname`"],""],
+["Quelle commande permet d'entrer en mode configuration ?",["`configure terminal`","`enable`","`show run`","`exit`"],"Le prompt devient `Router(config)#`."],
+["Quelle commande change le nom du routeur ?",["`hostname`","`enable secret`","`banner login`","`reload`"],""],
+["Quelle commande protège le mode administrateur par un mot de passe ?",["`enable secret`","`hostname`","`no shutdown`","`show run`"],"Ensuite, `enable` demande le mot de passe."],
+["Quelle commande allume une interface ?",["`no shutdown`","`shutdown`","`hostname`","`reload`"],"Sans elle, l'interface reste éteinte."],
+["Quelle commande affiche l'état des interfaces ?",["`show ip interface brief`","`show version`","`enable secret`","`copy`"],""],
+["Quelle commande sauvegarde la configuration dans la NVRAM ?",["`copy running-config startup-config`","`copy startup-config running-config`","`reload`","`show running-config`"],"Sans ça, la config disparaît au redémarrage."],
+["Quelle commande redémarre l'équipement ?",["`reload`","`enable`","`exit`","`hostname`"],""]
+];
+const app=document.getElementById('app');
+let qs,i,score,wrong,done;
+const sh=a=>{a=a.slice();for(let n=a.length-1;n>0;n--){const j=Math.floor(Math.random()*(n+1));[a[n],a[j]]=[a[j],a[n]]}return a};
+const f=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/`([^`]+)`/g,'<code>$1</code>');
+function start(list,shuffle){
+  qs=(shuffle?sh(list):list).map(s=>({s,q:s[0],o:sh(s[1].map((t,k)=>({t,ok:k==0}))),e:s[2]||''}));
+  i=0;score=0;wrong=[];show();
+}
+function show(){
+  const q=qs[i];done=false;window.scrollTo(0,0);
+  app.innerHTML=`<div class="top"><span>Question ${i+1} sur ${qs.length}</span><span>${score} juste${score>1?'s':''}</span></div>
+  <div class="bar"><i style="width:${i/qs.length*100}%"></i></div>
+  <h1>${f(q.q)}</h1>
+  ${q.o.map((o,k)=>`<button class="o" data-k="${k}">${f(o.t)}</button>`).join('')}
+  <div id="fb" aria-live="polite"></div>`;
+  app.querySelectorAll('.o').forEach(b=>b.onclick=()=>answer(+b.dataset.k));
+}
+function answer(k){
+  if(done)return;done=true;
+  const q=qs[i],ok=q.o[k].ok,good=q.o.find(o=>o.ok);
+  app.querySelectorAll('.o').forEach((b,n)=>{b.disabled=true;
+    if(q.o[n].ok)b.classList.add('ok');else if(n==k)b.classList.add('ko');else b.classList.add('dim')});
+  if(ok)score++;else wrong.push(q.s);
+  const last=i+1>=qs.length;
+  document.getElementById('fb').innerHTML=`<div class="v ${ok?'ok':'ko'}"><b>${ok?'Juste !':'Faux.'}</b> <span>${ok?'':'Bonne réponse : '+f(good.t)+'. '}${f(q.e)}</span></div>
+  <button class="main" id="nx">${last?'Voir mon résultat':'Question suivante'}</button>`;
+  const nx=document.getElementById('nx');nx.focus();
+  nx.onclick=()=>{i++;last?end():show()};
+}
+function end(){
+  const n=qs.length,p=Math.round(score/n*100);
+  const msg=p>=90?'Excellent, tu maîtrises le cours.':p>=70?'Bien joué, encore quelques points à revoir.':p>=50?'Pas mal, relis les points ratés.':'À retravailler, mais tu peux recommencer autant que tu veux.';
+  app.innerHTML=`<div class="bar"><i style="width:100%"></i></div>
+  <h2>${score} / ${n}</h2><p>${msg}</p>
+  ${wrong.length?`<h1>À revoir (${wrong.length})</h1><ul class="rev">${wrong.map(s=>`<li>${f(s[0])}<br><b>${f(s[1][0])}</b></li>`).join('')}</ul>`:''}
+  <div class="acts"><button class="main" id="re">Recommencer</button>${wrong.length?'<button class="alt" id="er">Refaire mes erreurs</button>':''}</div>`;
+  document.getElementById('re').onclick=()=>start(Q,true);
+  const er=document.getElementById('er');if(er)er.onclick=()=>start(wrong,true);
+}
+start(Q,false);
+</script></body></html>
